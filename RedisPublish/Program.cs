@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using StackExchange.Redis;
 using PubSubModels;
 using Newtonsoft.Json;
@@ -15,13 +16,13 @@ namespace RedisPublish
                 return;
             }
 
-            string pwString = "<redis access key here>";
-
             ConnectionMultiplexer connection;
 
             try
             {
-                connection = ConnectionMultiplexer.Connect("<cachenamehere>.redis.cache.windows.net,password=" + pwString);
+                connection = ConnectionMultiplexer.Connect(String.Format("{0}.redis.cache.windows.net,password={1}",
+                                        ConfigurationManager.AppSettings["CacheName"],
+                                        ConfigurationManager.AppSettings["CacheKey"]));
             }
             catch (Exception e)
             {
